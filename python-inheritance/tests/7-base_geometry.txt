@@ -1,7 +1,7 @@
 >>> BaseGeometry = __import__('7-base_geometry').BaseGeometry
->>> bg = BaseGeometry()
 
 # Test instantiation
+>>> bg = BaseGeometry()
 >>> isinstance(bg, BaseGeometry)
 True
 
@@ -13,11 +13,22 @@ Exception: area() is not implemented
 # Test integer_validator() existence
 >>> hasattr(bg, 'integer_validator')
 True
->>> callable(getattr(bg, 'integer_validator'))
+>>> callable(bg.integer_validator)
 True
 
-# Test integer_validator with valid age
->>> bg.integer_validator("age", 1)
+# Test integer_validator with valid integer
+>>> bg.integer_validator("my_int", 12)
+
+# Test integer_validator with multiple valid calls
+>>> bg.integer_validator("my_int", 12)
+>>> bg.integer_validator("width", 89)
+
+# Test integer_validator with string value
+>>> try:
+...     bg.integer_validator("name", "John")
+... except Exception as e:
+...     print("[{}] {}".format(e.__class__.__name__, e))
+[TypeError] name must be an integer
 
 # Test integer_validator with zero
 >>> try:
@@ -33,9 +44,9 @@ True
 ...     print("[{}] {}".format(e.__class__.__name__, e))
 [ValueError] age must be greater than 0
 
-# Test integer_validator with string
+# Test integer_validator with float
 >>> try:
-...     bg.integer_validator("age", "4")
+...     bg.integer_validator("age", 13.5)
 ... except Exception as e:
 ...     print("[{}] {}".format(e.__class__.__name__, e))
 [TypeError] age must be an integer
@@ -54,7 +65,7 @@ True
 ...     print("[{}] {}".format(e.__class__.__name__, e))
 [TypeError] age must be an integer
 
-# Test integer_validator with boolean (True is treated as 1 in numeric contexts)
+# Test integer_validator with boolean (True)
 >>> try:
 ...     bg.integer_validator("age", True)
 ... except Exception as e:
@@ -77,16 +88,15 @@ True
 
 # Additional tests for completeness
 
-# Test integer_validator with different parameter names
->>> bg.integer_validator("width", 10)
->>> bg.integer_validator("height", 20)
+# Test integer_validator with valid integer (1)
+>>> bg.integer_validator("age", 1)
 
-# Test integer_validator with float
->>> try:
-...     bg.integer_validator("age", 3.14)
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] age must be an integer
+# Test integer_validator with different parameter names
+>>> bg.integer_validator("height", 10)
+>>> bg.integer_validator("width", 20)
+
+# Test integer_validator with large positive integer
+>>> bg.integer_validator("population", 1000000)
 
 # Test integer_validator with dictionary
 >>> try:
@@ -94,10 +104,3 @@ True
 ... except Exception as e:
 ...     print("[{}] {}".format(e.__class__.__name__, e))
 [TypeError] age must be an integer
-
-# Test integer_validator with large positive integer
->>> bg.integer_validator("population", 1000000)
-
-# Test integer_validator with maximum integer value
->>> import sys
->>> bg.integer_validator("max_val", sys.maxsize)
