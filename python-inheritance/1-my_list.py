@@ -3,7 +3,8 @@
 MyList module
 
 This module defines a class MyList that inherits from the built-in list class.
-It adds a method to print the list in sorted order without modifying the original.
+It adds a method to print the list in sorted order without modifying the
+original.
 """
 
 
