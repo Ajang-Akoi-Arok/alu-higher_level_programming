@@ -1,106 +1,118 @@
->>> BaseGeometry = __import__('7-base_geometry').BaseGeometry
+The ``7-base_geometry`` module
+======================
 
-# Test instantiation
->>> bg = BaseGeometry()
->>> isinstance(bg, BaseGeometry)
-True
+Using ``BaseGeometry``
+-------------------
 
-# Test area() method
->>> bg.area()
-Traceback (most recent call last):
-Exception: area() is not implemented
+Importing the function from the module:
+        >>> BG = __import__("7-base_geometry").BaseGeometry
 
-# Test integer_validator() existence
->>> hasattr(bg, 'integer_validator')
-True
->>> callable(bg.integer_validator)
-True
+Checking for module docstring:
+         >>> m = __import__("7-base_geometry").__doc__
+         >>> len(m) > 1
+         True
 
-# Test integer_validator with valid integer
->>> bg.integer_validator("my_int", 12)
+Checking for class docstring:
+         >>> c = __import__("7-base_geometry").BaseGeometry.__doc__
+         >>> len(c) > 1
+         True
 
-# Test integer_validator with multiple valid calls
->>> bg.integer_validator("my_int", 12)
->>> bg.integer_validator("width", 89)
+Checking for method docstring:
+	 >>> mod1 = __import__("7-base_geometry").BaseGeometry.area.__doc__
+	 >>> len(mod1) > 1
+	 True
+	 >>> mod2 = __import__("7-base_geometry").BaseGeometry.integer_validator.__doc__
+         >>> len(mod2) > 1
+         True
 
-# Test integer_validator with string value
->>> try:
-...     bg.integer_validator("name", "John")
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] name must be an integer
+Checking for area failure:
+	 >>> b = BG()
+	 >>> b.area()
+	 Traceback (most recent call last):
+	 ...
+	 Exception: area() is not implemented
 
-# Test integer_validator with zero
->>> try:
-...     bg.integer_validator("age", 0)
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[ValueError] age must be greater than 0
+Checking too many arguments for area:
+	 >>> b.area(1)
+	 Traceback (most recent call last):
+         ...
+	 TypeError: area() takes 1 positional argument but 2 were given
 
-# Test integer_validator with negative value
->>> try:
-...     bg.integer_validator("age", -4)
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[ValueError] age must be greater than 0
+Checking integer validator for passing integer:
+	 >>> b.integer_validator("integer", 1)
 
-# Test integer_validator with float
->>> try:
-...     bg.integer_validator("age", 13.5)
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] age must be an integer
+Checking for integer == 0:
+	 >>> b.integer_validator("integer", 0)
+	 Traceback (most recent call last):
+         ...
+         ValueError: integer must be greater than 0
 
-# Test integer_validator with tuple
->>> try:
-...     bg.integer_validator("age", (4,))
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] age must be an integer
+Checking for integer < 0;
+	 >>> b.integer_validator("integer", -5)
+	 Traceback (most recent call last):
+         ...
+         ValueError: integer must be greater than 0
 
-# Test integer_validator with list
->>> try:
-...     bg.integer_validator("age", [3])
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] age must be an integer
+Checking for non-integer types:
+	 >>> b.integer_validator("bool", True)
+	 Traceback (most recent call last):
+         ...
+         TypeError: bool must be an integer
+	 >>> b.integer_validator("float", 1.5)
+         Traceback (most recent call last):
+         ...
+         TypeError: float must be an integer
+	 >>> b.integer_validator("complex", complex(1, 1))
+         Traceback (most recent call last):
+         ...
+         TypeError: complex must be an integer
+	 >>> b.integer_validator("string", "hello")
+         Traceback (most recent call last):
+         ...
+         TypeError: string must be an integer
+	 >>> b.integer_validator("tuple", (1, 2))
+         Traceback (most recent call last):
+         ...
+         TypeError: tuple must be an integer
+	 >>> b.integer_validator("list", [1, 2, 3])
+	 Traceback (most recent call last):
+         ...
+         TypeError: list must be an integer
+	 >>> b.integer_validator("dict", {"key": "value"})
+         Traceback (most recent call last):
+         ...
+         TypeError: dict must be an integer
+	 >>> b.integer_validator("set", {"hello", "world"})
+         Traceback (most recent call last):
+         ...
+         TypeError: set must be an integer
+	 >>> b.integer_validator("frozenset", frozenset(["hello", "world"]))
+         Traceback (most recent call last):
+         ...
+         TypeError: frozenset must be an integer
+	 >>> b.integer_validator("bytes", b"bytes")
+         Traceback (most recent call last):
+         ...
+         TypeError: bytes must be an integer
+	 >>> b.integer_validator("bytearrays", bytearray(b"bytes"))
+         Traceback (most recent call last):
+         ...
+         TypeError: bytearrays must be an integer
 
-# Test integer_validator with boolean (True)
->>> try:
-...     bg.integer_validator("age", True)
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] age must be an integer
+Checking for no arguments to integer_validator:
+	 >>> b.integer_validator()
+	 Traceback (most recent call last):
+         ...
+	 TypeError: integer_validator() missing 2 required positional arguments: 'name' and 'value'
 
-# Test integer_validator with set
->>> try:
-...     bg.integer_validator("age", {3, 4})
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] age must be an integer
+Checking for only 1 argument to integer_validator:
+	 >>> b.integer_validator("integer")
+	 Traceback (most recent call last):
+         ...
+	 TypeError: integer_validator() missing 1 required positional argument: 'value'
 
-# Test integer_validator with None
->>> try:
-...     bg.integer_validator("age", None)
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] age must be an integer
-
-# Additional tests for completeness
-
-# Test integer_validator with valid integer (1)
->>> bg.integer_validator("age", 1)
-
-# Test integer_validator with different parameter names
->>> bg.integer_validator("height", 10)
->>> bg.integer_validator("width", 20)
-
-# Test integer_validator with large positive integer
->>> bg.integer_validator("population", 1000000)
-
-# Test integer_validator with dictionary
->>> try:
-...     bg.integer_validator("age", {"age": 25})
-... except Exception as e:
-...     print("[{}] {}".format(e.__class__.__name__, e))
-[TypeError] age must be an integer
+Checking for too many arguments:
+	 >>> b.integer_validator("integer", 1, 2)
+	 Traceback (most recent call last):
+         ...
+	 TypeError: integer_validator() takes 3 positional arguments but 4 were given
