@@ -1,0 +1,90 @@
+>>> MyList = __import__('1-my_list').MyList
+>>> my_list = MyList()
+>>> my_list.append(1)
+>>> my_list.append(4)
+>>> my_list.append(2)
+>>> my_list.append(3)
+>>> my_list.append(5)
+>>> print(my_list)
+[1, 4, 2, 3, 5]
+>>> my_list.print_sorted()
+[1, 2, 3, 4, 5]
+>>> print(my_list)
+[1, 4, 2, 3, 5]
+
+>>> # Test with empty list
+>>> empty = MyList()
+>>> empty.print_sorted()
+[]
+
+>>> # Test with single element
+>>> single = MyList([42])
+>>> single.print_sorted()
+[42]
+>>> print(single)
+[42]
+
+>>> # Test with negative numbers
+>>> neg = MyList([-5, 3, -1, 0, 2])
+>>> neg.print_sorted()
+[-5, -1, 0, 2, 3]
+>>> print(neg)
+[-5, 3, -1, 0, 2]
+
+>>> # Test with already sorted list
+>>> sorted_list = MyList([1, 2, 3, 4, 5])
+>>> sorted_list.print_sorted()
+[1, 2, 3, 4, 5]
+>>> print(sorted_list)
+[1, 2, 3, 4, 5]
+
+>>> # Test with reverse sorted list
+>>> reverse = MyList([5, 4, 3, 2, 1])
+>>> reverse.print_sorted()
+[1, 2, 3, 4, 5]
+>>> print(reverse)
+[5, 4, 3, 2, 1]
+
+>>> # Test with duplicate values
+>>> dup = MyList([3, 1, 4, 1, 5, 9, 2, 6, 5])
+>>> dup.print_sorted()
+[1, 1, 2, 3, 4, 5, 5, 6, 9]
+>>> print(dup)
+[3, 1, 4, 1, 5, 9, 2, 6, 5]
+
+>>> # Test with large numbers
+>>> large = MyList([1000, 500, 2000, 750, 1500])
+>>> large.print_sorted()
+[500, 750, 1000, 1500, 2000]
+>>> print(large)
+[1000, 500, 2000, 750, 1500]
+
+>>> # Test list inheritance - all list methods should work
+>>> my_list = MyList()
+>>> my_list.extend([10, 30, 20])
+>>> my_list.insert(1, 15)
+>>> my_list.append(25)
+>>> print(my_list)
+[10, 15, 30, 20, 25]
+>>> my_list.print_sorted()
+[10, 15, 20, 25, 30]
+>>> my_list.pop()
+25
+>>> my_list.reverse()
+>>> print(my_list)
+[20, 30, 15, 10]
+
+>>> # Test that MyList is indeed a subclass of list
+>>> issubclass(MyList, list)
+True
+>>> isinstance(my_list, list)
+True
+>>> isinstance(my_list, MyList)
+True
+
+>>> # Test with list initialization
+>>> init_list = MyList([9, 5, 7, 3])
+>>> init_list.print_sorted()
+[3, 5, 7, 9]
+>>> print(init_list)
+[9, 5, 7, 3]
