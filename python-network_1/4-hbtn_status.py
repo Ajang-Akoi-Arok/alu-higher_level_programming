@@ -1,16 +1,13 @@
 #!/usr/bin/python3
-"""__summary__
-- Write a Python script that
-- fetches https://intranet.hbtn.io/status.
-"""
+"""Script that fetches https://alu-intranet.hbtn.io/status"""
 import requests
 
 
 if __name__ == "__main__":
-    url = 'https://intranet.hbtn.io/status'
-    if url.startswith('https://'):
-        url = "https://alu-intranet.hbtn.io/status"
-    res = requests.get(url)
+    url = "https://alu-intranet.hbtn.io/status"
+    response = requests.get(url)
+    content = response.text
+    
     print("Body response:")
-    print("\t- type: {}".format(type(res.text)))
-    print("\t- content: {}".format(res.text))
+    print("\t- type: {}".format(type(content)))
+    print("\t- content: {}".format(content))
