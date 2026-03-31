@@ -4,7 +4,7 @@ import requests
 
 
 if __name__ == "__main__":
-    url = "https://alu-intranet.hbtn.io/status"
+    url = "https://intranet.hbtn.io/status"
     response = requests.get(url)
     content = response.text
 
