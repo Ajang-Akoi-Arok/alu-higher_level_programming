@@ -4,12 +4,28 @@ import MySQLdb
 import sys
 
 if __name__ == '__main__':
-    db = MySQLdb.connect(host="localhost", port=3306,
-                         user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3])
+    # Connect to MySQL server
+    db = MySQLdb.connect(
+        host="localhost",
+        port=3306,
+        user=sys.argv[1],
+        passwd=sys.argv[2],
+        db=sys.argv[3]
+    )
+    
+    # Create cursor
     cur = db.cursor()
+    
+    # Execute query - this works for 0, 2, or 100000 records
     cur.execute("SELECT * FROM states ORDER BY id ASC")
+    
+    # Fetch all rows
     rows = cur.fetchall()
+    
+    # Display results - works for any number of records
     for row in rows:
         print(row)
+    
+    # Close cursor and connection
     cur.close()
     db.close()
